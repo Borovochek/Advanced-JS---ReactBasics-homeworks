@@ -26,7 +26,6 @@ const characterHealthChanges = (character) => {
     return 'critical';
   }
 }
-characterHealthChanges(character);
 
 module.exports = {
   characterHealthChanges,
