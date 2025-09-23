@@ -7,7 +7,7 @@
 ## Пример использования
 
 ```jsx
-const now = new Date(2017, 2, 8);
+const now = new Date(2025, 9, 22);
 
 // внутри компонента App:
 return (
