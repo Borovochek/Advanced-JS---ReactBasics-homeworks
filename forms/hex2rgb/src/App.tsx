@@ -1,32 +1,48 @@
-import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
+import { useState, useEffect } from 'react'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [inputValue, setInputValue] = useState('');
+  const [rgbValue, setRgbValue] = useState('');
+  const [backgroundColor, setBackgroundColor] = useState('#9921ff');
+
+  useEffect(() => {
+    document.body.style.backgroundColor = backgroundColor;
+
+    return () => {
+      document.body.style.backgroundColor = '#9921ff';
+    };
+  }, [backgroundColor]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setInputValue(value);
+    const hexRegex = /^#[0-9A-Fa-f]{6}$/;
+    const isValid = hexRegex.test(value);
+
+    if (isValid && value.length === 7) {
+      let cleanHex = value.replace(/^#/, '');
+      let r = parseInt(cleanHex.substring(0, 2), 16);
+      let g = parseInt(cleanHex.substring(2, 4), 16);
+      let b = parseInt(cleanHex.substring(4, 6), 16);
+
+      const newRgb = `rgb(${r}, ${g}, ${b})`
+      setRgbValue(newRgb);
+      setBackgroundColor(value);
+    } else if (!isValid && value.length >= 7) {
+      setInputValue('ПРИВЕТ');
+      setRgbValue('Ошибка!')
+      setBackgroundColor('rgba(139, 58, 58, 0.9)');
+    }
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <label className="container">
+        <input type="text" className="input-field" id="colorInput" placeholder="Введите код цвета..." value={inputValue} onChange={handleChange}></input>
+
+        <span className="result" id="result">{rgbValue}</span>
+      </label>
     </>
   )
 }
