@@ -1,10 +1,10 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './css/main.css'
-import { Listing } from './cmponents/Listing.tsx'
+import App from './App.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Listing />
+    <App />
   </StrictMode>,
 )

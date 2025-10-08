@@ -1,35 +1,35 @@
-// import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-// import './App.css'
+import { Listing } from './cmponents/Listing.tsx'
+import type { Item } from './types/types.tsx';
+import './App.css'
+import etsyData from './data/etsy.json';
 
-// function App() {
-//   const [count, setCount] = useState(0)
+function App() {
+     const items = etsyData.filter((item: any): item is Item => {
+        if (!item || typeof item !== 'object') return false;
+        
+        return (
+            typeof item.listing_id === 'number' &&
+            typeof item.url === 'string' && 
+            item.url !== '' && 
+            item.MainImage != null && 
+            typeof item.MainImage === 'object' &&
+            typeof item.MainImage.url_570xN === 'string' &&
+            item.MainImage.url_570xN !== '' &&
+            typeof item.title === 'string' &&
+            item.title !== '' &&
+            typeof item.currency_code === 'string' &&
+            item.currency_code !== '' &&
+            typeof item.price === 'string' &&
+            item.price !== '' &&
+            typeof item.quantity === 'number' &&
+            !isNaN(item.quantity) 
+        );
+    });
 
-//   return (
-//     <>
-//       <div>
-//         <a href="https://vite.dev" target="_blank">
-//           <img src={viteLogo} className="logo" alt="Vite logo" />
-//         </a>
-//         <a href="https://react.dev" target="_blank">
-//           <img src={reactLogo} className="logo react" alt="React logo" />
-//         </a>
-//       </div>
-//       <h1>Vite + React</h1>
-//       <div className="card">
-//         <button onClick={() => setCount((count) => count + 1)}>
-//           count is {count}
-//         </button>
-//         <p>
-//           Edit <code>src/App.tsx</code> and save to test HMR
-//         </p>
-//       </div>
-//       <p className="read-the-docs">
-//         Click on the Vite and React logos to learn more
-//       </p>
-//     </>
-//   )
-// }
 
-// export default App
+    return (
+        <Listing items={items} />
+    )
+}
+
+export default App

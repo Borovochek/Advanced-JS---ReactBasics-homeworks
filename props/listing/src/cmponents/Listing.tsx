@@ -1,20 +1,11 @@
-import etsyData from '../data/etsy.json';
+import type { Item } from '../types/types.tsx';
 
-
-interface Item {
-    listing_id: number;
-    url: string;
-    MainImage?: { url_570xN: string };
-    title: string;
-    currency_code: string;
-    price: string;
-    quantity: number;
+interface ListingProps {
+    items: Item[];
 }
 
+export function Listing({ items }: ListingProps) {
 
-
-export function Listing() {
-    const items: Item[] = etsyData as Item[];
 
     const currentPrice = (item: Item) => {
         if (item.currency_code === 'USD') {
