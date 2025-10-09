@@ -26,7 +26,7 @@ export function Listing({ items }: ListingProps) {
         <div className="container">
             <div className="product-grid">{items.map((item) =>
                 <div className="product-card" key={item.listing_id}>
-                    <img src={item.MainImage?.url_570xN} alt={item.url} className="product-image"></img>
+                    <img src={item.MainImage} alt={item.url} className="product-image"></img>
                     <div className="product-info">
                         <h3 className="product-title">{item.title ? (item.title.length <= 50 ? item.title : item.title.slice(0, 50) + "...") : ''}</h3>
                         <div className="price-container">
