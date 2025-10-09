@@ -40,7 +40,7 @@ function App() {
 
     // Проверяем, редактируем ли мы существующую запись
     if (editingId) {
-      setDailyDistances(prevDistances => 
+      setDailyDistances(prevDistances =>
         prevDistances.map(record =>
           record.id === editingId
             ? { ...record, date: formattedDate, distance: distanceValue }
@@ -51,10 +51,10 @@ function App() {
     } else {
       // Проверяем, существует ли уже запись с такой датой
       const existingRecordIndex = dailyDistances.findIndex(record => record.date === formattedDate);
-      
+
       if (existingRecordIndex !== -1) {
         // Обновляем существующую запись - суммируем дистанции
-        setDailyDistances(prevDistances => 
+        setDailyDistances(prevDistances =>
           prevDistances.map((record, index) =>
             index === existingRecordIndex
               ? { ...record, distance: record.distance + distanceValue }
@@ -85,7 +85,7 @@ function App() {
     // Конвертируем дату из DD.MM.YYYY в YYYY-MM-DD для input type="date"
     dateRef.current.value = formatDateForInput(record.date);
     distanceRef.current.value = record.distance.toString();
-    
+
     // Устанавливаем режим редактирования
     setEditingId(id);
   };
@@ -109,25 +109,25 @@ function App() {
           <div className="form-row">
             <div className="form-group">
               <label htmlFor="date">Дата</label>
-              <input 
-                type="date" 
-                ref={dateRef} 
-                id="date" 
-                name="date" 
+              <input
+                type="date"
+                ref={dateRef}
+                id="date"
+                name="date"
                 required
               />
             </div>
 
             <div className="form-group">
               <label htmlFor="distance">Пройдено км</label>
-              <input 
-                type="number" 
-                ref={distanceRef} 
-                id="distance" 
-                name="distance" 
-                placeholder="5.7" 
-                step="0.1" 
-                min="0" 
+              <input
+                type="number"
+                ref={distanceRef}
+                id="distance"
+                name="distance"
+                placeholder="5.7"
+                step="0.1"
+                min="0"
                 required
               />
             </div>
@@ -150,21 +150,27 @@ function App() {
           {dailyDistances.length === 0 ? (
             <div className="empty-state">Нет данных о тренировках</div>
           ) : (
-            dailyDistances.map((element) => (
+            dailyDistances.sort((a, b) => {
+              const parseDate = (dateStr: string): number => {
+                const [day, month, year] = dateStr.split('.');
+                 return new Date(parseInt(year, 10), parseInt(month, 10) - 1, parseInt(day, 10)).getTime();
+              };
+              return parseDate(b.date) - parseDate(a.date);
+            }).map((element) => (
               <div className="table-row" key={element.id}>
                 <div className="col-date">{element.date}</div>
                 <div className="col-distance">{element.distance}</div>
                 <div className="col-actions">
-                  <button 
-                    className="action-btn edit-btn" 
-                    title="Редактировать" 
+                  <button
+                    className="action-btn edit-btn"
+                    title="Редактировать"
                     onClick={() => handleEdit(element.id)}
                   >
                     ✎
                   </button>
-                  <button 
-                    className="action-btn delete-btn" 
-                    title="Удалить" 
+                  <button
+                    className="action-btn delete-btn"
+                    title="Удалить"
                     onClick={() => handleDelete(element.id)}
                   >
                     ✕
